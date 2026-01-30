@@ -147,10 +147,15 @@ export class Collection extends Basecoat<CollectionEventArgs> {
         continue
       }
 
+      const parent = cell.getParent()
+
+      if (parent) {
+        parent.unembed(cell, options)
+      }
+
       const index = this.cells.indexOf(cell)
       this.cells.splice(index, 1)
       this.length -= 1
-      delete this.map[cell.id]
       removed.push(cell)
       this.unreference(cell)
 
