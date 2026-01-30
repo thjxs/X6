@@ -147,12 +147,6 @@ export class Collection extends Basecoat<CollectionEventArgs> {
         continue
       }
 
-      const parent = cell.getParent()
-
-      if (parent) {
-        parent.unembed(cell, options)
-      }
-
       const index = this.cells.indexOf(cell)
       this.cells.splice(index, 1)
       this.length -= 1
@@ -170,6 +164,11 @@ export class Collection extends Basecoat<CollectionEventArgs> {
       if (!options.dryrun) {
         cell.remove()
       }
+    }
+
+    for (let i = 0; i < removed.length; i += 1) {
+      const cell = removed[i]
+      this.trigger('afterRemoved', { cell, options })
     }
 
     return removed
@@ -377,6 +376,10 @@ export interface CollectionEventArgs
   removed: {
     cell: Cell
     index: number
+    options: CollectionRemoveOptions
+  }
+  afterRemoved: {
+    cell: Cell
     options: CollectionRemoveOptions
   }
 }

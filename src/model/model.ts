@@ -171,6 +171,13 @@ export class Model extends Basecoat<ModelEventArgs> {
       }
     })
 
+    collection.on('afterRemoved', (args) => {
+      const cell = args.cell
+      if (cell.model === this) {
+        cell.model = null
+      }
+    })
+
     collection.on('reseted', (args) => {
       this.onReset(args.current)
       this.notify('reseted', args)
@@ -240,10 +247,6 @@ export class Model extends Basecoat<ModelEventArgs> {
       } else {
         this.removeConnectedEdges(cell, options)
       }
-    }
-
-    if (cell.model === this) {
-      cell.model = null
     }
   }
 
