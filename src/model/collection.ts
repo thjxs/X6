@@ -166,9 +166,11 @@ export class Collection extends Basecoat<CollectionEventArgs> {
       }
     }
 
-    for (let i = 0; i < removed.length; i += 1) {
-      const cell = removed[i]
-      this.trigger('afterRemoved', { cell, options })
+    if(!options.silent) {
+      for (let i = 0; i < removed.length; i += 1) {
+        const cell = removed[i]
+        this.trigger('afterRemoved', { cell, options })
+      }
     }
 
     return removed
